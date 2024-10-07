@@ -1,0 +1,44 @@
+from pulp import *
+
+#elementary features
+lp = LpProblem("Nutrition_Diet", LpMinimize)
+
+
+#defining decision variables
+x1 = LpVariable(name = "Chicken Breast", lowBound = 1)
+x2 = LpVariable(name = "Cereal", lowBound = 1)
+x3 = LpVariable(name = "Sweet Potato", lowBound = 1)
+x4 = LpVariable(name = "Protein Shake", lowBound = 1)
+x5 = LpVariable(name = "Smoothie", lowBound = 1)
+
+#define objective function
+lp += 4.31 * x1 + 1.44 * x2 + .8 * x3 + 1.83 * x4 + 3.77 * x5
+
+#define constraints
+lp += 530 * x1 + 370 * x2 + 386 * x3 + 250 * x4 + 210 * x5 <= 35000
+lp += 420 * x1 + 290 * x2 + 268 * x3 + 270 * x4 + 360 * x5 >= 14000
+lp += 51 * x1 + 16 * x2 + 4.2 * x3 + 37 * x4 + 34 * x5 >= 350
+lp += 0 * x1 + 7 * x2 + 0 * x3 + 5 * x4 + 5 * x5 >= 140
+lp += 43 * x1 + 390 * x2 + 104 * x3 + 510 * x4 + 680 * x5 >= 9100
+lp += 1.72 * x1 + 10.8 * x2 + 1.4 * x3 + 0 * x4 + 1.44 * x5 >= 126
+lp += 815.44 * x1 + 480 * x2 + 896 * x3 + 550 * x4 + 1140 * x5 >= 32900
+
+#solve linear equation
+status = lp.solve()
+print("Status:", status)
+
+
+#print solution
+for var in lp.variables():
+    print(var, "=", value(var))
+print("min_cost = ", value(lp.objective))
+
+
+
+Status: 1
+Cereal = 20.0
+Chicken_Breast = 0.0
+Protein_Shake = 0.0
+Smoothie = 0.0
+Sweet_Potato = 30.597015
+min_cost =  53.277612
